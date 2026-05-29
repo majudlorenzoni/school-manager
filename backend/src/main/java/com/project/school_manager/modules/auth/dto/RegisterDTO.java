@@ -1,4 +1,6 @@
 package com.project.school_manager.modules.auth.dto;
 
-public record RegisterDTO(String login, String password, String role) {
+import com.project.school_manager.modules.user.entity.UserRole;
+
+public record RegisterDTO(String login, String password, UserRole role, String name, String cpf) {
 }

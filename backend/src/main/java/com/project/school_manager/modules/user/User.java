@@ -32,6 +32,15 @@ public class User implements UserDetails {
 
     private String cpf;
 
+    public User(String login, String password, String name, UserRole role, String cpf){
+        this.login = login;
+        this.password = password;
+        this.name = name;
+        this.role = role;
+        this.cpf = cpf;
+
+    }
+
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
