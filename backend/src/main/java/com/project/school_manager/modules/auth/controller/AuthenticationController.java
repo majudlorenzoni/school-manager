@@ -1,6 +1,8 @@
 package com.project.school_manager.modules.auth.controller;
 
+import com.project.school_manager.infrastructure.security.TokenService;
 import com.project.school_manager.modules.auth.dto.AuthenticationDTO;
+import com.project.school_manager.modules.auth.dto.LoginResponseDTO;
 import com.project.school_manager.modules.auth.dto.RegisterDTO;
 import com.project.school_manager.modules.user.User;
 import com.project.school_manager.modules.user.entity.UserRole;
@@ -26,12 +28,15 @@ public class AuthenticationController {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    TokenService tokenService;
     @PostMapping("/login")
     public ResponseEntity login (@RequestBody @Valid AuthenticationDTO data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((User) auth.getPrincipal());
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @PostMapping("/register")
